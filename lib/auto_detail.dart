@@ -22,7 +22,8 @@ class AutoDetail extends StatelessWidget {
           const Row(mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(Icons.call,size: 50),
-              Text("8129570444")
+              Text("8129570444"),
+              Text("Hi")
             ],
           ),
         ],
