@@ -23,7 +23,8 @@ class AutoDetail extends StatelessWidget {
             children: [
               Icon(Icons.call,size: 50),
               Text("8129570444"),
-              Text("Hi")
+              Text("Hi"),
+              const Text("KL 57 M 2012"),
             ],
           ),
         ],
