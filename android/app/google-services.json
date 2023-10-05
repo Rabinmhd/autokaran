@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "440058548098",
+    "project_id": "autokaran-8003e",
+    "storage_bucket": "autokaran-8003e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440058548098:android:65b1c0fe7f9d723ce0499b",
+        "android_client_info": {
+          "package_name": "com.example.autokaran"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPv77sL8owB5EgVb_ob_JDY4bHflnHXRU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
