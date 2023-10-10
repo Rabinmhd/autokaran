@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
 import 'package:image_picker/image_picker.dart';
 
@@ -14,6 +15,8 @@ class AdminProfileEdit extends StatefulWidget {
 class _AdminProfileEditState extends State<AdminProfileEdit> {
   File? imagePicked;
   String selectedValue = "Select One";
+  late String lat;
+  late String long;
   final List<String> items = [
     "Bajaj Maxima",
     "Electric Auto Rickshaw",
@@ -48,6 +51,7 @@ class _AdminProfileEditState extends State<AdminProfileEdit> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 InkWell(
                   onTap: () {
@@ -136,19 +140,26 @@ class _AdminProfileEditState extends State<AdminProfileEdit> {
                 Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Container(
+                    width: 200,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
                       color: Colors.grey[200],
                     ),
-                    child: const Padding(
+                    child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 12.0),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: 'Location',
-                          border: InputBorder.none,
-                          icon: Icon(Icons.location_on),
-                        ),
-                        style: TextStyle(fontSize: 16.0, color: Colors.black),
+                      child: MaterialButton(
+                        onPressed: () {
+                          //location
+                          _getCurrentLocation(context).then(
+                            (value) {
+                              lat = value.latitude.toString();
+                              long = value.latitude.toString();
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(content: Text(lat)));
+                            },
+                          );
+                        },
+                        child: Icon(Icons.location_on),
                       ),
                     ),
                   ),
@@ -163,6 +174,7 @@ class _AdminProfileEditState extends State<AdminProfileEdit> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       child: DropdownButton(
+                        hint: Text(selectedValue),
                         items: items.map(
                           (String item) {
                             return DropdownMenuItem<String>(
@@ -171,7 +183,13 @@ class _AdminProfileEditState extends State<AdminProfileEdit> {
                             );
                           },
                         ).toList(),
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          setState(() {
+                            if (value != null) {
+                              selectedValue = value;
+                            }
+                          });
+                        },
                       ),
                     ),
                   ),
@@ -225,4 +243,42 @@ class _AdminProfileEditState extends State<AdminProfileEdit> {
       ),
     );
   }
+}
+
+void _showAlertDialog(BuildContext context, String title) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(title),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the AlertDialog
+            },
+            child: Text('dismiss'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+Future<Position> _getCurrentLocation(BuildContext context) async {
+  bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  if (!serviceEnabled) {
+    _showAlertDialog(context, "Location service disabled");
+    throw Exception("Location service are disbled");
+  }
+  LocationPermission permission = await Geolocator.checkPermission();
+  if (permission == LocationPermission.denied) {
+    permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.denied) {
+      throw Exception("location permission denied");
+    }
+  }
+  if (permission == LocationPermission.deniedForever) {
+    throw Exception("location permission disabled");
+  }
+  return await Geolocator.getCurrentPosition();
 }

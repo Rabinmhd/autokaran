@@ -1,5 +1,5 @@
 // import 'package:autokaran/pages/admin/profile_edit_page.dart';
-import 'package:autokaran/pages/user/user_login_page.dart';
+import 'package:autokaran/pages/admin/profile_edit_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: UserLoginPage(),
+      home: AdminProfileEdit(),
       //home: AdminProfileEdit(),
     );
   }

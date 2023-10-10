@@ -38,15 +38,19 @@ class _UserSignUpPageState extends State<UserSignUpPage> {
       //     );
       //   },
       // );
+
       FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) {
-        Navigator.push(
+          .then(
+        (value) {
+          Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => UserHomePage(),
-            ));
-      });
+            ),
+          );
+        },
+      );
     } else {
       showDialog(
         context: context,
